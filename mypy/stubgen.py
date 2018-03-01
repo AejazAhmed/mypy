@@ -149,7 +149,8 @@ def find_module_path_and_all(module: str, pyversion: Tuple[int, int],
             try:
                 mod = importlib.import_module(module)
             except Exception:
-                raise CantImport(module)
+                #raise CantImport(module)
+                raise
             if is_c_module(mod):
                 return None
             module_path = mod.__file__
