@@ -149,6 +149,18 @@ def find_module_path_and_all(module: str, pyversion: Tuple[int, int],
             try:
                 mod = importlib.import_module(module)
             except Exception:
+                import os
+                print("CRASH:", module, pyversion, no_import, search_path)
+                print("DIR:", os.getcwd())
+                print("PATH:", sys.path)
+
+                def crawl(d: str, i: int) -> None:
+                    print("  " * i + "DIR " + os.path.basename(d) + ":", os.listdir(d))
+                    for s in os.listdir(d):
+                        s = os.path.join(d, s)
+                        if os.path.isdir(s):
+                            crawl(s, i + 1)
+                crawl(".", 0)
                 # raise CantImport(module)
                 raise
             if is_c_module(mod):
